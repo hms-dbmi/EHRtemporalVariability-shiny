@@ -61,10 +61,10 @@ ui <- fluidPage(
                             br(),
                             tags$p(HTML( "Variability in healthcare processes, protocols or due to the system or human biases, can be a potential bias for the reuse of Electronic Health Records (EHRs), where unexpected batch-effects can be introduced. EHRtemporalVariability is an open-source R-package and Shiny-app for exploring and undercovering the effects of time in the statistical distributions of EHRs. EHRtemporalVariability batches and visualizes EHRs temporal-evolution through dynamic heatmaps and non-parametric-information-geometry plots for coded, numerical and multivariate EHR data." ) ),
                             tags$p(HTML(
-                              "R package GitHub repo: <a href=\"\">https://github.com/hms-dbmi/EHRtemporalVariability</a>."
+                              "R package GitHub repo: <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability\" target=\"_blank\">https://github.com/hms-dbmi/EHRtemporalVariability</a>."
                             )),
                             tags$p(HTML(
-                              "Shiny app GitHub repo: <a href=\"\">https://github.com/hms-dbmi/EHRtemporalVariability-shiny</a>."
+                              "Shiny app GitHub repo: <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability-shiny\" target=\"_blank\">https://github.com/hms-dbmi/EHRtemporalVariability-shiny</a>."
                             )),
                             br(),
                             h5( HTML("To begin, you can use any of the next options:\n\n" ) ),
@@ -77,10 +77,8 @@ ui <- fluidPage(
                               )
                               ),
                             br(),
-                            h5('To visualize the results click on the "Plot!" button.'),
-                            br(),
                             tags$p(HTML(
-                              "For further details see the <a href=\"\">our awesome paper and vignette/case study</a>."
+                              "For further details see the our awesome <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#Citation\" target=\"_blank\">paper</a> and <a href=\"https://htmlpreview.github.com/?https://github.com/hms-dbmi/EHRtemporalVariability/master/vignettes/EHRtemporalVariability.html\" target=\"_blank\">vignette</a>/<a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#EHRtemporalVariability\" target=\"_blank\">case study</a>."
                             )),
                             
                             width = 12
@@ -97,7 +95,7 @@ ui <- fluidPage(
                             mainPanel(
                               tags$h4(HTML("<u>NHDS data</u>")),
                               p(
-                                "The National Hospital Discharge Survey (NHDS), which was conducted annually from 1965-2010, was a national probability survey designed to meet the need for information on characteristics of inpatients discharged from non-Federal short-stay hospitals in the United States. Data from the NHDS are available annually and are used to examine important topics of interest in public health and for a variety of activities by governmental, scientific, academic, and commercial institutions. This demo includes a total of 3,257,718 hospital discharges between 2000 and 2010. For more information visit http://www.cdc.gov/nchs/nhds/index.htm."
+                                "The National Hospital Discharge Survey (NHDS), which was conducted annually from 1965-2010, was a national probability survey designed to meet the need for information on characteristics of inpatients discharged from non-Federal short-stay hospitals in the United States. Data from the NHDS are available annually and are used to examine important topics of interest in public health and for a variety of activities by governmental, scientific, academic, and commercial institutions. This demo includes a total of 3,257,718 hospital discharges between 2000 and 2010. For more information visit", HTML("<a href=\"http://www.cdc.gov/nchs/nhds/index.htm\" target=\"_blank\">https://www.cdc.gov/nchs/nhds/index.htm</a>"),"."
                               ),
                               br(),
                               width = 12
@@ -123,7 +121,7 @@ ui <- fluidPage(
                             mainPanel(
                               tags$h3(HTML("<u>Instructions</u>")),
                               p(
-                                "Using the EHRtemporalVariability R package allows more flexibility in raw data formatting and variable preprocessing, such as formatting ICD-9 codes, selecting or deriving specific variables, or even reducing the dimensionality of data. The resultant objects of classes 'DataTemporalMap' and 'IGTProjection' can be used as input for the shiny App. You can save them in a file to be uploaded herein by typing: save( dataTemporalMaps, igtProjectionss, file = “myResults.RData ). For more information read the accompaining <a href=\"\">vignette/case study</a>"
+                                HTML("Using the EHRtemporalVariability R package allows more flexibility in raw data formatting and variable preprocessing, such as formatting ICD-9 codes, selecting or deriving specific variables, or even reducing the dimensionality of data. The resultant objects of classes 'DataTemporalMap' and 'IGTProjection' can be used as input for the shiny App. You can save them in a file to be uploaded herein by typing: save( dataTemporalMaps, igtProjections, file = “myResults.RData ). For more information read the accompaining <a href=\"https://htmlpreview.github.com/?https://github.com/hms-dbmi/EHRtemporalVariability/master/vignettes/EHRtemporalVariability.html\" target=\"_blank\">vignette</a>/<a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#EHRtemporalVariability\" target=\"_blank\">case study</a>.")
                               ),
                               br(), p(img(src = 'warning.png', align = "rigth", width="25px", height="20px"),
                                       "Do not upload patient-level data", 
@@ -131,10 +129,9 @@ ui <- fluidPage(
                                       , style="color:red;"),
                               br(),
                               p(
-                                "To see what a correctly formatted data set
-                                looks like download the NHDS demo file below (limited to a subsample of the NHDS data)."
+                                "To see what a correctly formatted data set looks like download the NHDS demo file below (limited to a 10% random subsample of the NHDS data between 2000 and 2010)."
                               ),
-                              tags$a(href = "variabilityDemoNHDS.RData", "Download the NHDS RData here!"),
+                              tags$a(href = "https://github.com/hms-dbmi/EHRtemporalVariability-DataExamples/raw/master/variabilityDemoNHDS.RData", "Download the NHDS RData here!"),
                               br(),
                               br(),
                               width = 12
