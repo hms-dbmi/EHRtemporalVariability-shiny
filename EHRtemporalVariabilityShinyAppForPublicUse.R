@@ -68,7 +68,6 @@ ui <- fluidPage(
                             )),
                             br(),
                             h5( HTML("To begin, you can use any of the next options:\n\n" ) ),
-                            
                             tags$p(
                               HTML(
                                 "<ol start='1'> <li>\"Demo with real data\" explores a case study of the app capabilities with the US National Hospital Discharge Survey open dataset.</li>
@@ -78,9 +77,16 @@ ui <- fluidPage(
                               ),
                             br(),
                             tags$p(HTML(
-                              "For further details see the our awesome <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#Citation\" target=\"_blank\">paper</a> and <a href=\"https://htmlpreview.github.com/?https://github.com/hms-dbmi/EHRtemporalVariability/master/vignettes/EHRtemporalVariability.html\" target=\"_blank\">vignette</a>/<a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#EHRtemporalVariability\" target=\"_blank\">case study</a>."
+                              "For further details see our <a href=\"https://htmlpreview.github.com/?https://github.com/hms-dbmi/EHRtemporalVariability/master/vignettes/EHRtemporalVariability.html\" target=\"_blank\">vignette</a>, <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#EHRtemporalVariability\" target=\"_blank\">case study</a> and <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#Citation\" target=\"_blank\"> publications</a>."
                             )),
-                            
+                            tags$p(HTML(
+                              "If you use EHRtemporalVariability, please cite:"
+                            )),
+                            tags$p(HTML(
+                              "<blockquote style='font-size:14px'>Carlos Sáez, Alba Gutiérrez-Sacristán, Paul Avillach, Juan M García-Gómez.
+                              EHRtemporalVariability: delineating unknown reference changes in Electronic Health Records over time.
+                              (Submitted) </blockquote>"
+                              )),
                             width = 12
                             ),
                           #mainPanel(img(src = 'testing.png', align = "center", width="1000px", height="500px"))
