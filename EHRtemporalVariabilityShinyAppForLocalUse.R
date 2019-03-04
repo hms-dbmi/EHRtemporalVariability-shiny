@@ -417,9 +417,10 @@ server <- function(input, output, session) {
     #                    "variabilityDemoNHDS_w.RData",
     #                    package = "EHRtemporalVariability"), senv)
     # }
-    load(system.file("extdata",
-                     "variabilityDemoNHDS.RData",
-                     package = "EHRtemporalVariability"), senv)
+    # load(system.file("extdata",
+    #                  "variabilityDemoNHDS.RData",
+    #                  package = "EHRtemporalVariability"), senv)
+    load("www/variabilityDemoNHDS.RData", senv)
     message(ls())
     dataValues$probMaps <- senv$probMaps
     dataValues$igtProjs <- senv$igtProjs
