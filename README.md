@@ -4,7 +4,7 @@
 
 ## What is this repository for?
 
-The `EHRtemporalVariability-shiny` R Shiny app provides a graphical user interface to delineate reference changes over time in Electronic Health Records through the projection and visualization of differences among data temporal batches. This is done through the estimation of data statistical distributions over time and their projection in non-parametric statistical manifolds uncovering the patterns of the data latent temporal variability. Results can be explored through visual analytics formats such as Data Temporal heatmaps and Information Geometric Temporal (IGT) plots [1,2]. The supporting [EHRtemporalVariability R package](https://github.com/hms-dbmi/variability) can be used for more detailed and personalized analysis by users experienced in R coding.
+The `EHRtemporalVariability-shiny` R Shiny app provides a graphical user interface to delineate reference changes over time in Electronic Health Records through the projection and visualization of differences among data temporal batches. This is done through the estimation of data statistical distributions over time and their projection in non-parametric statistical manifolds uncovering the patterns of the data latent temporal variability. Results can be explored through visual analytics formats such as Data Temporal heatmaps and Information Geometric Temporal (IGT) plots [1,2,3]. The supporting [EHRtemporalVariability R package](https://github.com/hms-dbmi/EHRtemporalVariability) can be used for more detailed and personalized analysis by users experienced in R coding.
 
 Note that there are two shiny app R files:
 
@@ -17,8 +17,8 @@ An on line demo of the EHRtemporalVariability shiny app is available at http://e
 
 ## Package Status
 
-* __Version__: 1.0
-* __Authors__: Carlos Sáez (UPV-HMS), Alba Gutiérrez-Sacristán (HMS), Paul Avillach (HMS), Juan M García-Gómez (UPV)
+* __Version__: 1.0.1
+* __Authors__: Carlos Sáez (UPV-HMS), Alba Gutiérrez-Sacristán (HMS), Isaac Kohane (HMS), Juan M García-Gómez (UPV), Paul Avillach (HMS)
 * __Maintainer__: Carlos Saez (UPV-HMS)
  
 Copyright: 2019 - Biomedical Data Science Lab, Universitat Politècnica de València, Spain (UPV) - Department of Biomedical Informatics, Harvard Medical School (HMS)
@@ -27,7 +27,7 @@ Copyright: 2019 - Biomedical Data Science Lab, Universitat Politècnica de Valè
 
 A paper describing the EHRtemporalVariability package has been submitted. If you use EHRtemporalVariability, please cite:
 
-Sáez C, Gutiérrez-Sacristán A, Avillach P, García-Gómez JM. EHRtemporalVariability: delineating unknown reference changes in Electronic Health Records over time. (Submitted)
+Sáez C, Gutiérrez-Sacristán A, Kohane I, García-Gómez JM, Avillach P. EHRtemporalVariability: delineating unknown reference changes in Electronic Health Records over time. (Submitted)
 
 The original methods and case studies using the approach are described here:
 
