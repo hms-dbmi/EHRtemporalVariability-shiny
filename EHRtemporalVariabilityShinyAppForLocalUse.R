@@ -60,7 +60,7 @@ ui <- fluidPage(
                           sidebarPanel(
                             h3( "Welcome to the EHRtemporalVariability Shiny App!" ),
                             br(),
-                            tags$p(HTML( "Variability in healthcare processes, protocols or due to the system or human biases, can be a potential bias for the reuse of Electronic Health Records (EHRs), where unexpected batch-effects can be introduced. EHRtemporalVariability is an open-source R-package and Shiny-app for exploring and undercovering the effects of time in the statistical distributions of EHRs. EHRtemporalVariability batches and visualizes EHRs temporal-evolution through dynamic heatmaps and non-parametric-information-geometry plots for coded, numerical and multivariate EHR data." ) ),
+                            tags$p(HTML( "Variability in healthcare processes, protocols or due to the system or human biases, can be a potential bias for the reuse of Electronic Health Records (EHRs), where unexpected batch-effects can be introduced. EHRtemporalVariability is an open-source R-package and Shiny-app for exploring and uncovering the effects of time in the statistical distributions of EHRs. EHRtemporalVariability batches and visualizes EHRs temporal-evolution through dynamic heatmaps and non-parametric-information-geometry plots for coded, numerical and multivariate EHR data." ) ),
                             tags$p(HTML(
                               "R package GitHub repo: <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability\" target=\"_blank\">https://github.com/hms-dbmi/EHRtemporalVariability</a>."
                             )),
@@ -79,14 +79,14 @@ ui <- fluidPage(
                               )
                             ),
                             tags$p(HTML(
-                              "For further details see our <a href=\"https://htmlpreview.github.com/?https://github.com/hms-dbmi/EHRtemporalVariability/master/vignettes/EHRtemporalVariability.html\" target=\"_blank\">vignette</a>, <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#EHRtemporalVariability\" target=\"_blank\">case study</a> and <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#Citation\" target=\"_blank\"> publications</a>."
+                              "For further details see our <a href=\"http://personales.upv.es/carsaesi/EHRtemporalVariability/EHRtemporalVariability.html\" target=\"_blank\">vignette</a> and <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability#Citation\" target=\"_blank\"> publications</a>."
                             )),
                             tags$p(HTML(
                               "If you use EHRtemporalVariability, please cite:"
                             )),
                             tags$p(HTML(
                               "<blockquote style='font-size:14px'>Carlos Sáez, Alba Gutiérrez-Sacristán, Paul Avillach, Juan M García-Gómez.
-                              EHRtemporalVariability: delineating unknown reference changes in Electronic Health Records over time.
+                              EHRtemporalVariability: delineating unknown, temporal reference changes in Electronic Health Records.
                               (Submitted) </blockquote>"
                             )),
                             width = 12
