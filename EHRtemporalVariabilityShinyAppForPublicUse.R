@@ -59,7 +59,7 @@ ui <- fluidPage(
                           sidebarPanel(
                             h3( "Welcome to the EHRtemporalVariability Shiny App! (public demo version)" ),
                             br(),
-                            tags$p(HTML( "Variability in healthcare processes, protocols or due to the system or human biases, can be a potential bias for the reuse of Electronic Health Records (EHRs), where unexpected batch-effects can be introduced. EHRtemporalVariability is an open-source R-package and Shiny-app for exploring and uncovering the effects of time in the statistical distributions of EHRs. EHRtemporalVariability batches and visualizes EHRs temporal-evolution through dynamic heatmaps and non-parametric-information-geometry plots for coded, numerical and multivariate EHR data." ) ),
+                            tags$p(HTML( "Variability in healthcare processes, protocols or due to the system or human biases, can be a potential bias for the reuse of Electronic Health Records (EHRs), where unexpected batch-effects can be introduced. EHRtemporalVariability is an open-source R-package and Shiny-app for exploring and uncovering the effects of time in the statistical distributions of EHRs, namely dataset shifts. EHRtemporalVariability batches and visualizes EHRs temporal-evolution through dynamic heatmaps and non-parametric-information-geometry plots for coded, numerical and multivariate EHR data." ) ),
                             tags$p(HTML(
                               "R package GitHub repo: <a href=\"https://github.com/hms-dbmi/EHRtemporalVariability\" target=\"_blank\">https://github.com/hms-dbmi/EHRtemporalVariability</a>."
                             )),
@@ -83,8 +83,8 @@ ui <- fluidPage(
                               "If you use EHRtemporalVariability, please cite:"
                             )),
                             tags$p(HTML(
-                              "<blockquote style='font-size:14px'>Carlos Sáez, Alba Gutiérrez-Sacristán, Paul Avillach, Juan M García-Gómez.
-                              EHRtemporalVariability: delineating unknown, temporal reference changes in Electronic Health Records.
+                              "<blockquote style='font-size:14px'>Carlos Sáez, Alba Gutiérrez-Sacristán, Isaac Kohane, Juan M García-Gómez, Paul Avillach.
+                              EHRtemporalVariability: delineating temporal dataset shifts in Electronic Health Records.
                               (Submitted) </blockquote>"
                               )),
                             width = 12

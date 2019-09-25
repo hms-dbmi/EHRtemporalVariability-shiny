@@ -85,8 +85,8 @@ ui <- fluidPage(
                               "If you use EHRtemporalVariability, please cite:"
                             )),
                             tags$p(HTML(
-                              "<blockquote style='font-size:14px'>Carlos Sáez, Alba Gutiérrez-Sacristán, Paul Avillach, Juan M García-Gómez.
-                              EHRtemporalVariability: delineating unknown, temporal reference changes in Electronic Health Records.
+                              "<blockquote style='font-size:14px'>Carlos Sáez, Alba Gutiérrez-Sacristán, Isaac Kohane, Juan M García-Gómez, Paul Avillach.
+                              EHRtemporalVariability: delineating temporal dataset shifts in Electronic Health Records.
                               (Submitted) </blockquote>"
                             )),
                             width = 12
