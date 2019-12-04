@@ -235,16 +235,18 @@ ui <- fluidPage(
                                                    checkboxInput("showTable", "Show the data loaded", TRUE)
                                            )
                                            ,
+                                           
                                            fluidRow(
-                                             column(3, uiOutput("dateColumn")), 
-                                             column(3, uiOutput("dateFormat")),
-                                             column(3, uiOutput("analysisPeriod"))
+                                             column(4, uiOutput("dateColumn")), 
+                                             column(4, uiOutput("dateFormat")),
+                                             column(4, uiOutput("analysisPeriod"))
                                            ), 
+                                           
                                            tippy_this(element = "dateFormat",
-                                                      tooltip = "%y -> Year without century (00–99) <br>
+                                                      tooltip = "%y -> Year without century (00-99) <br>
                                                       %Y -> Year with century (0000-9999) <br>
-                                                      %m -> Month as decimal number (01–12) <br>
-                                                      %d -> Day of the month as decimal number (01–31)",
+                                                      %m -> Month as decimal number (01-12) <br>
+                                                      %d -> Day of the month as decimal number (01-31)",
                                                       placement = "right",
                                                       arrow = TRUE),
                                            
@@ -330,7 +332,8 @@ server <- function(input, output, session) {
     read.csv(input$fileCSV$datapath,
              header = input$header,
              sep = input$sep,
-             quote = input$quote)
+             quote = input$quote,
+             row.names = NULL)
   })
   
   output$contents <- renderTable({
