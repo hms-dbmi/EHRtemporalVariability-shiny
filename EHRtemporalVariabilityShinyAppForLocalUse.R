@@ -86,8 +86,7 @@ ui <- fluidPage(
                             )),
                             tags$p(HTML(
                               "<blockquote style='font-size:14px'>Carlos Sáez, Alba Gutiérrez-Sacristán, Isaac Kohane, Juan M García-Gómez, Paul Avillach.
-                              EHRtemporalVariability: delineating temporal dataset shifts in Electronic Health Records.
-                              (Submitted) </blockquote>"
+                              EHRtemporalVariability: delineating temporal dataset shifts in Electronic Health Records. Preprint submitted to medRxiv. <a href=\"https://doi.org/10.1101/2020.04.07.20056564\" target=\"_blank\">doi: 10.1101/2020.04.07.20056564</a> </blockquote>"
                             )),
                             width = 12
                           ),
@@ -281,6 +280,7 @@ ui <- fluidPage(
                     uiOutput("radioButtonsHeatmapType"),
                     uiOutput("igtdimensions"),
                     uiOutput("igtdateselectionmethod"),
+                    uiOutput("igttrajectory"),
                     # Input: Selector for color palette
                     selectInput(inputId = "colorpalette",
                                 label = "Choose a color palette:",
@@ -325,9 +325,6 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  attr(input, "readonly") <- FALSE
-  dataValues <- reactiveValues()
-  
   loadfile <- reactive({
     read.csv(input$fileCSV$datapath,
              header = input$header,
@@ -335,6 +332,16 @@ server <- function(input, output, session) {
              quote = input$quote,
              row.names = NULL)
   })
+  
+  attr(input, "readonly") <- FALSE
+  dataValues <- reactiveValues()
+  
+  dataValues$selectedIGTtrajectory          <- TRUE
+  dataValues$selectedIGTdimensions          <- 2
+  dataValues$selectedIGTdateselectionmethod <- 'crop'
+  dataValues$selectedHeatmapType            <- 'probability'
+  dataValues$selectedHeatmapSorting         <- 'frequency'
+  
   
   output$contents <- renderTable({
     
@@ -365,7 +372,7 @@ server <- function(input, output, session) {
   output$dateColumn <- renderUI({
     req(input$fileCSV)
     df <- loadfile()
-    selectInput("colnameSelected", label = "Select date column" , 
+    selectInput("colnameSelected", label = "Select date column" ,
                 choices = c(colnames( df  ), " "), selected = " " )
   })
   
@@ -373,10 +380,10 @@ server <- function(input, output, session) {
     req( input$fileCSV)
     df <- loadfile()
     #if( input$colnameSelected != " "){
-      tags$button(id="confirm2", 
-                  type="button", 
-                  class="btn action-button btn-large btn-primary", 
-                  HTML('<i class="icon-star"></i>Run the analysis & Plot Results!'))
+    tags$button(id="confirm2",
+                type="button",
+                class="btn action-button btn-large btn-primary",
+                HTML('<i class="icon-star"></i>Run the analysis & Plot Results!'))
     #}
     
   })
@@ -384,16 +391,16 @@ server <- function(input, output, session) {
   output$dateFormat <- renderUI({
     req(input$fileCSV)
     df <- loadfile()
-    selectInput("dateFormatSelected", label = "Select date format", 
-                choices = c("%y/%m/%d","%Y/%m/%d", "%d/%m/%y", "%d/%m/%Y", 
-                            "%y-%m-%d","%Y-%m-%d", "%d-%m-%y", "%d-%m-%Y", 
+    selectInput("dateFormatSelected", label = "Select date format",
+                choices = c("%y/%m/%d","%Y/%m/%d", "%d/%m/%y", "%d/%m/%Y",
+                            "%y-%m-%d","%Y-%m-%d", "%d-%m-%y", "%d-%m-%Y",
                             "%y/%m", "%Y/%m","%m-%Y","%m-%y","%y", "%Y", " " ), selected = " ")
   })
   
   output$analysisPeriod <- renderUI({
     req(input$fileCSV)
     df <- loadfile()
-    selectInput("analysisPeriodSelected",  label = "Select analysis period", 
+    selectInput("analysisPeriodSelected",  label = "Select analysis period",
                 choices = c("year", "month", "week", " "), selected = " ")
   })
   
@@ -406,23 +413,7 @@ server <- function(input, output, session) {
   
   observeEvent(input$confirm0, {
     senv <- new.env()
-    # if( input$demodatasetSelection == "Month"){
-    #   load(system.file("extdata",
-    #                    "variabilityDemoNHDS_m.RData",
-    #                    package = "EHRtemporalVariability"), senv)
-    # }else if( input$demodatasetSelection == "Year"){
-    #   load(system.file("extdata",
-    #                    "variabilityDemoNHDS_y.RData",
-    #                    package = "EHRtemporalVariability"), senv)
-    #   
-    # }else if( input$demodatasetSelection == "Week"){
-    #   load(system.file("extdata",
-    #                    "variabilityDemoNHDS_w.RData",
-    #                    package = "EHRtemporalVariability"), senv)
-    # }
-    # load(system.file("extdata",
-    #                  "variabilityDemoNHDS.RData",
-    #                  package = "EHRtemporalVariability"), senv)
+    
     load("www/variabilityDemoNHDS.RData", senv)
     message(ls())
     dataValues$probMaps <- senv$probMaps
@@ -432,6 +423,7 @@ server <- function(input, output, session) {
                       selected = "variability_plot")
     
   })
+  
   
   observeEvent(input$confirm1, {
     senv <- new.env()
@@ -449,59 +441,25 @@ server <- function(input, output, session) {
   
   observeEvent(input$confirm2, {
     
-    withProgress(message = 'Running the analysis', value = 0, {
-
-        incProgress(detail = "Step 1:3 -> Formatting the date")
-      
-    
     #transform the date column
-    ourInput <- EHRtemporalVariability::formatDate( input = loadfile(), 
-                                           dateColumn = input$colnameSelected,
-                                           dateFormat = input$dateFormatSelected)
+    ourInput <- EHRtemporalVariability::formatDate( input = loadfile(),
+                                                    dateColumn = input$colnameSelected,
+                                                    dateFormat = input$dateFormatSelected)
     message( lapply(ourInput, class))
     message( head(ourInput$date))
-    
-    incProgress(detail = "Step 2:3 -> Estimating DataTemporalMap")
-    probMaps <- estimateDataTemporalMap(data           = ourInput, 
-                                        dateColumnName = input$colnameSelected, 
+    probMaps <- estimateDataTemporalMap(data           = ourInput,
+                                        dateColumnName = input$colnameSelected,
                                         period         = input$analysisPeriodSelected)
-    
-    incProgress(detail = "Step 3:3 -> Calculating igtProjections")
-    
     igtProjs <- lapply(probMaps, estimateIGTProjection)
     names(igtProjs) = names(probMaps)
     
     dataValues$probMaps <- probMaps
     dataValues$igtProjs <- igtProjs
-
-    })
+    
+    
     updateTabsetPanel(session, "main_panel",
                       selected = "variability_plot")
   })
-  
-  ###
-  output$download <- renderUI({
-    if(!is.null(input$confirm1) & !is.null(input$confirm2)) {
-      downloadButton('OutputFile', 'Save analysis results')
-    }
-  })
-  
-  output$OutputFile <- downloadHandler(
-    filename = "EHRoutputData.RData",
-    content = function(con) {
-      
-      withProgress(message = 'RData file ready:', value = 0, {
-        
-        incProgress(detail = "Download in progress")
-      if(! is.null( dataValues$probMaps ) && ! is.null( dataValues$igtProjs )){
-        probMaps = dataValues$probMaps
-        igtProjs = dataValues$igtProjs
-        save(probMaps, igtProjs, file=con)
-      }
-      }
-    )}
-  )
-  
   
   observeEvent(input$variable, {
     if (input$variable != ""){
@@ -513,6 +471,22 @@ server <- function(input, output, session) {
     }
   })
   
+  observeEvent(input$trajectory, {
+    dataValues$selectedIGTtrajectory = input$trajectory
+  })
+  observeEvent(input$igtdimensions, {
+    dataValues$selectedIGTdimensions = input$igtdimensions
+  })
+  observeEvent(input$igtdateselectionmethod, {
+    dataValues$selectedIGTdateselectionmethod = input$igtdateselectionmethod
+  })
+  observeEvent(input$heatmaptype, {
+    dataValues$selectedHeatmapType = input$heatmaptype
+  })
+  observeEvent(input$heatmapSortingOption, {
+    dataValues$selectedHeatmapSorting = input$heatmapSortingOption
+  })
+  
   observeEvent(input$heatmapvaluesrange, {
     dataValues$heatmapvalueMin = input$heatmapvaluesrange[1]
     dataValues$heatmapvalueMax = input$heatmapvaluesrange[2]
@@ -520,8 +494,8 @@ server <- function(input, output, session) {
   
   output$variableValue <- renderUI({
     
-    selectInput(inputId = "variable", 
-                label = "Choose a variable:", 
+    selectInput(inputId = "variable",
+                label = "Choose a variable:",
                 choices =  names(dataValues$probMaps)
     )
     
@@ -531,10 +505,10 @@ server <- function(input, output, session) {
     if(! is.null( dataValues$probMaps ) && input$tabsetPlots %in% c("igtPlot","temporalMapANDigtPlot") ){
       radioButtons("dim",
                    "IGT plot dimensions:",
-                   c('2D' = 2, '3D (slower but more informative)' = 3), 
-                   selected = 2
+                   c('2D' = 2, '3D (slower but more informative)' = 3),
+                   selected = dataValues$selectedIGTdimensions
                    # selected = ifelse( dataValues$probMaps[[1]]@period == "week", 2, 3)
-                   )
+      )
     }
   })
   
@@ -542,13 +516,24 @@ server <- function(input, output, session) {
     if(! is.null( dataValues$probMaps ) && input$tabsetPlots %in% c("igtPlot","temporalMapANDigtPlot") ){
       radioButtons("igtdateselection",
                    "IGT plot date selection method:",
-                   c("Crop from full embedding (faster but less accurate)" = "crop", "Recalculate embedding (slower but more accurate)" = "recalc"), 
-                   selected = "crop"
+                   c("Crop from full embedding (faster but less accurate)" = "crop", "Recalculate embedding (slower but more accurate)" = "recalc"),
+                   selected = dataValues$selectedIGTdateselectionmethod
       )
     }
   })
   
-  output$daterangeValues <- renderUI({
+  output$igttrajectory <- renderUI({
+    if(! is.null( dataValues$probMaps ) && input$tabsetPlots %in% c("igtPlot","temporalMapANDigtPlot") ){
+      radioButtons("trajectory",
+                   "IGT plot trajectory:",
+                   c('No' = FALSE, 'Yes' = TRUE),
+                   selected = dataValues$selectedIGTtrajectory
+      )
+    }
+  })
+  
+  output$daterangeValues <- output$daterangeValues2 <- output$daterangeValues3 <-
+    renderUI({
       if(! is.null(dataValues$probMaps) ){
         sliderInput("daterange", "Date selection:",
                     min = min(dataValues$probMaps[[1]]@dates),
@@ -561,28 +546,8 @@ server <- function(input, output, session) {
                     max = Sys.Date(),
                     value = c( as.Date( "1990-01-01" ), Sys.Date() )
         )
-
+        
       }})
-  
-  # output$daterangeValues <- renderUI({
-  #     if(! is.null(dataValues$probMaps) ){
-  #       dateRangeInput("daterange", "Date range:",
-  #                      start  = min(dataValues$probMaps[[1]]@dates),
-  #                      end    = max(dataValues$probMaps[[1]]@dates),
-  #                      min    = min(dataValues$probMaps[[1]]@dates),
-  #                      max    = max(dataValues$probMaps[[1]]@dates),
-  #                      startview = "year",
-  #                      weekstart = 0)
-  #     }else{
-  #       dateRangeInput("daterange", "Date range:",
-  #                      start  = "1990-01-01",
-  #                      end    = NULL,
-  #                      min    = "1990-01-01",
-  #                      max    = NULL,
-  #                      startview = "year",
-  #                      weekstart = 0)
-  #     }
-  #   })
   
   output$heatmapvalues <- renderUI({
     if(!is.null( dataValues$probMaps ) && !is.null(input$variable) && input$variable != "" && input$tabsetPlots %in% c("temporalMap","temporalMapANDigtPlot") ){
@@ -628,8 +593,8 @@ server <- function(input, output, session) {
       {
         radioButtons("heatmapSortingOption",
                      "Temporal heatmap values sorting (only in categorical):",
-                     c("Frequency" = "frequency", "Alphabetical" = "alphabetical"), 
-                     selected = "frequency"
+                     c("Frequency" = "frequency", "Alphabetical" = "alphabetical"),
+                     selected = dataValues$selectedHeatmapSorting
         )
       }
     }
@@ -640,7 +605,8 @@ server <- function(input, output, session) {
     {
       radioButtons("heatmaptype", "Temporal heatmap data type:",
                    c("Probability (relative frequencies)" = "probability",
-                     "Counts (absolute frequencies)" = "counts")
+                     "Counts (absolute frequencies)" = "counts"),
+                   selected = dataValues$selectedHeatmapType
       )
     }
   })
@@ -659,7 +625,7 @@ server <- function(input, output, session) {
         startValue = ifelse(is.null(dataValues$heatmapvalueMin),1,dataValues$heatmapvalueMin),
         endValue   = ifelse(is.null(dataValues$heatmapvalueMax),switch(dataValues$probMaps[[input$variable]]@variableType, "character" = DEFAULT_HEATMAP_VAL, "factor" = DEFAULT_HEATMAP_VAL, "numeric" = nrow(dataValues$probMaps[[input$variable]]@support), "integer" = nrow(dataValues$probMaps[[input$variable]]@support)), dataValues$heatmapvalueMax),
         startDate = input$daterange[1],
-        endDate = input$daterange[2], 
+        endDate = input$daterange[2],
         sortingMethod = sortingMethod,
         colorPalette = input$colorpalette,
         absolute = switch(input$heatmaptype, "probability" = FALSE, "counts" = TRUE ))
@@ -668,49 +634,38 @@ server <- function(input, output, session) {
       plotly_empty()
     }
     else{
-      stop( "Please go back to the previous page and upload your data" )
-    }  
+      stop( "Please go back to the previous page and select or upload your data" )
+    }
     
-  } )
-  
-  # output$igtplot <- output$igtplot3 <- renderPlotly({
-  #   
-  #   if( !is.null( dataValues$probMaps )  && !is.null(input$variable) && input$variable != "" && !is.null(input$daterange[1]) && !is.null(input$dim) && !is.null(input$colorpalette)){
-  #     igtProj <- estimateIGTProjection(EHRtemporalVariability::trimDataTemporalMap(dataValues$probMaps[[input$variable]], startDate = input$daterange[1], endDate = input$daterange[2] ))
-  #     plotIGTProjection( igtProj, 
-  #                        dimensions = input$dim,
-  #                        colorPalette = input$colorpalette)
-  #   }else if (!is.null( dataValues$probMaps )){
-  #     plotly_empty()
-  #   }
-  #   else{
-  #     stop( "Please go back to the previous page and upload your data" )
-  #   }   
-  # })
+  })
   
   output$igtplot <- output$igtplot3 <- renderPlotly({
     
-    if( !is.null( dataValues$probMaps )  && !is.null(input$variable) && input$variable != "" && !is.null(input$daterange[1]) && !is.null(input$dim) && !is.null(input$colorpalette)){
+    if( !is.null( dataValues$probMaps )  && !is.null(input$variable) && input$variable != "" && !is.null(input$daterange[1]) && !is.null(input$dim) && !is.null(input$colorpalette) && !is.null(input$trajectory)){
       if(input$igtdateselection == 'crop'){
-        plotIGTProjection( dataValues$igtProjs[[input$variable]], 
+        plotIGTProjection( dataValues$igtProjs[[input$variable]],
                            dimensions = input$dim,
                            startDate = input$daterange[1],
                            endDate = input$daterange[2],
-                           colorPalette = input$colorpalette)
+                           colorPalette = input$colorpalette,
+                           trajectory = input$trajectory)
       }
       else{ # input$igtdateselection == 'recalc'
-        igtProj <- estimateIGTProjection(EHRtemporalVariability::trimDataTemporalMap(dataValues$probMaps[[input$variable]], startDate = input$daterange[1], endDate = input$daterange[2] ))
+        igtProj <- estimateIGTProjection(EHRtemporalVariability::trimDataTemporalMap(dataValues$probMaps[[input$variable]], 
+                                                                                     startDate = input$daterange[1], 
+                                                                                     endDate = input$daterange[2]))
         plotIGTProjection( igtProj,
                            dimensions = input$dim,
-                           colorPalette = input$colorpalette)
+                           colorPalette = input$colorpalette,
+                           trajectory = input$trajectory)
       }
       
     }else if (!is.null( dataValues$probMaps )){
       plotly_empty()
     }
     else{
-      stop( "Please go back to the previous page and upload your data" )
-    }   
+      stop( "Please go back to the previous page and select or upload your data" )
+    }
   })
   
   output$igtplotcaption <- output$igtplotcaption3 <- renderUI({
@@ -721,7 +676,7 @@ server <- function(input, output, session) {
                         "year" = "Text labels are formatted as 'yy' (2 digit year). Coloring is according to year.")
       HTML(caption)
     } else {
-    } 
+    }
   })
 }
 
