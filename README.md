@@ -24,10 +24,10 @@ An on line demo of the EHRtemporalVariability shiny app is available at http://e
 ## Package Status
 
 * __Version__: 1.1.1
-* __Authors__: Carlos Sáez (UPV-HMS), Alba Guti?rrez-Sacrist?n (HMS), Isaac Kohane (HMS), Juan M García-Gómez (UPV), Paul Avillach (HMS)
+* __Authors__: Carlos Sáez (UPV-HMS), Alba Gutiérrez-Sacristán (HMS), Isaac Kohane (HMS), Juan M García-Gómez (UPV), Paul Avillach (HMS)
 * __Maintainer__: Carlos Sáez (UPV-HMS)
  
-Copyright: 2019 - Biomedical Data Science Lab, Universitat Polit?cnica de Val?ncia, Spain (UPV) - Department of Biomedical Informatics, Harvard Medical School (HMS)
+Copyright: 2019 - Biomedical Data Science Lab, Universitat Politècnica de València, Spain (UPV) - Department of Biomedical Informatics, Harvard Medical School (HMS)
 
 ## Documentation
 
