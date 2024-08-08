@@ -35,6 +35,9 @@ Copyright: 2019 - Biomedical Data Science Lab, Universitat Politècnica de Valè
 
 * [Package help](https://github.com/hms-dbmi/EHRtemporalVariability/raw/master/vignettes/EHRtemporalVariabilityHelp.pdf)
 
+## Publication
+The code in this repository is part of the work presented in: "EHRtemporalVariability: delineating temporal data-set shifts in electronic health records" https://academic.oup.com/gigascience/article/9/8/giaa079/5878826
+
 ## Citation
 
 If you use EHRtemporalVariability, please cite:
